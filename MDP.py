@@ -1,13 +1,13 @@
 ######################################################################
 # Author: Elaheh Jamali
-# Username: Jamalie
+# Username: Jamaliela
 
 # Programming Assignment 2: Markov Decision Process
 #
 # Purpose: Markov Decision Processes are mathematical frameworks
 # used to model a sequential decision-making problem.
 #
-# Acknowledgement: Giorgi Lomia
+# Acknowledgements: Emely ALfaro, Gerardo Soto and Elyor Tukhtasinov (Classmates. we worked on the homework together)
 #
 ######################################################################
 # In this assignment, there is one state per space in the grid.
@@ -25,6 +25,8 @@ class MDP:
         self.grid = grid
         self.A = ['^', 'v', '>', '<']   # Set of possible actions
         self.U = [[0 for j in range(len(self.grid[0]))] for i in range(len(self.grid))]  # An attribute to store state utility values.
+        self.G = [[0 for j in range(len(self.grid[0]))] for i in range(len(self.grid))]
+        self.policy = [[0 for j in range(len(self.grid[0]))] for i in range(len(self.grid))]
         print(self.U)
 
     def value_iteration(self):   # The value iteration algorithm.
@@ -36,9 +38,10 @@ class MDP:
                     for a in self.A:
                         if self.get_expected_value(i, j, a) > best_a[0]:
                             best_a = [self.get_expected_value(i, j, a), a]
-                    self.U[i][j] = self.grid[i][j] + gamma * best_a[0]
-                    # self.Grid = copy.deepcopy(self.U)
-        print(self.U)
+                    print(best_a)
+                    self.G[i][j] = self.grid[i][j] + gamma * best_a[0]
+            print(self.U)
+            self.U = copy.deepcopy(self.G)
 
     def get_policy(self):
         # Using the attribute self.U to determine the appropriate policy, and
@@ -49,19 +52,19 @@ class MDP:
                 for a in self.A:
                     if self.get_expected_value(i, j, a) > best_a[0]:
                         best_a = [self.get_expected_value(i, j, a), a]
-                self.U[i][j] = best_a[1]
-        print(self.U)
+                self.policy[i][j] = best_a[1]
+        print(self.policy)
 
-    def get_val(self, i, j):
+    def get_val(self, i, j): # self grid is the reward were we are keeping the self U is keep getting updated.
         if i < 0:
-            return self.grid[i+1][j]
-        elif i > len(self.grid) - 1:
-            return self.grid[i-1][j]
+            return self.U[i+1][j]
+        elif i > len(self.U) - 1:
+            return self.U[i-1][j]
         if j < 0:
-            return self.grid[i][j+1]
-        elif j > len(self.grid[i])-1:
-            return self.grid[i][j-1]
-        return self.grid[i][j]
+            return self.U[i][j+1]
+        elif j > len(self.U[i])-1:
+            return self.U[i][j-1]
+        return self.U[i][j]
 
     def get_expected_value(self, i, j, a):
         expected_value = 0
