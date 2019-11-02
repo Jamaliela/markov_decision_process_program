@@ -7,7 +7,8 @@
 # Purpose: Markov Decision Processes are mathematical frameworks
 # used to model a sequential decision-making problem.
 #
-# Acknowledgements: Emely ALfaro, Gerardo Soto and Elyor Tukhtasinov (Classmates. we worked on the homework together)
+# Acknowledgements: Emely Alfaro, Gerardo Soto and Elyor Tukhtasinov (Classmates. we worked on the homework together)
+# Special thanks to Professor Shepherd and Giorgi Lomia
 #
 ######################################################################
 # In this assignment, there is one state per space in the grid.
